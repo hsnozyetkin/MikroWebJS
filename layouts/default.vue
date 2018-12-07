@@ -1,55 +1,105 @@
 <template>
-  <div>
-    <nuxt/>
+  <div id="wrapper" class="container-fluid d-flex flex-column align-items-stretch w-100 h-100 p-0">
+    <!-- <ContainerTopLeft />
+    <ContainerTopCenter />
+    <ContainerTopRight />
+    <ContainerBottomLeft />
+    <ContainerBottomCenter />
+    <ContainerBottomRight /> -->
+    <top-menu v-if="getMenuVisible"></top-menu>
+    <Header></Header>
+    <app-content v-if="!getMenuVisible">
+      <nuxt/>
+    </app-content>
+    <div @click="close" v-if="getDarknes" class="darknes h-100 w-100 bg-dark position-absolute">
+
+    </div>
   </div>
 </template>
 
+<script>
+import { mapGetters, mapMutations } from "vuex";
+// import ContainerTopLeft from '@/components/MesajKutusu/containerTopLeft'
+// import ContainerTopCenter from '@/components/MesajKutusu/containerTopCenter'
+// import ContainerTopRight from '@/components/MesajKutusu/containerTopRight'
+// import ContainerBottomLeft from '@/components/MesajKutusu/containerBottomLeft'
+// import ContainerBottomCenter from '@/components/MesajKutusu/containerBottomCenter'
+// import ContainerBottomRight from '@/components/MesajKutusu/containerBottomRight'
+
+import Content from "../components/shared/Content";
+import Header from "../components/shared/Header";
+import TopMenu from "../components/shared/TopMenu";
+export default {
+  components: {
+    Header,
+    topMenu: TopMenu,
+    appContent: Content,
+    // ContainerTopLeft,
+    // ContainerTopCenter,
+    // ContainerTopRight,
+    // ContainerBottomLeft,
+    // ContainerBottomCenter,
+    // ContainerBottomRight
+  },
+  computed: {
+    ...mapGetters(["getMenuVisible", "getDarknes"])
+  },
+  methods: {
+    ...mapMutations([
+      "setDarknes",
+      "setCustomerSelected",
+      "setProjectSelected",
+      "setProductSelected"
+    ]),
+    close() {
+      this.setDarknes(false);
+      this.setCustomerSelected(false);
+      this.setProjectSelected(false);
+      this.setProductSelected(false);
+    }
+  }
+};
+</script>
+
 <style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+/*     DArknes    */
+.darknes {
+  z-index: 1;
+  opacity: 0.3;
+}
+/**********************************/
+div#__nuxt {
+  width: 100%;
+  height: 100%;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
+#__layout {
+  width: 100%;
+  height: 100%;
 }
 
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
+#wrapper {
+  overflow: scroll;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
+html,
+body {
+  font-family: sans-serif;
+  height: 100%;
 }
+/*********MEnü ***************/
 
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
+.fade-enter {
+  opacity: 0;
 }
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
+.fade-leave-active {
+  transition: opacity 0.5s;
+  opacity: 0;
 }
 </style>
